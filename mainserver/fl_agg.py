@@ -8,6 +8,7 @@ from keras.layers import Conv2D, MaxPooling2D
 
 import numpy as np
 import glob
+import os
 
 # batch_size = 128
 num_classes = 10
@@ -53,6 +54,8 @@ def fl_average():
 
 
 def build_model(avg):
+    keras.backend.clear_session()
+
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(3, 3),
                      activation='relu',
@@ -89,7 +92,8 @@ def evaluate_model(model, x_test, y_test):
     print('Test accuracy:', score[1])
 
 def save_agg_model(model):
-    model.save("persistent_storage/agg_model.h5")
+    # model.save("persistent_storage/agg_model.h5")
+    model.save("agg_model/agg_model.h5")
     print("Model written to storage!")
 
 def model_aggregation():

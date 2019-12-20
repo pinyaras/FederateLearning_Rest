@@ -4,6 +4,7 @@ import json
 import requests
 import ast
 from model_train import train
+import time
 
 app = Flask(__name__)
 
@@ -34,7 +35,7 @@ def send_model():
 		'model': ('model1.npy', file, 'application/octet-stream')
 	}
 
-	req = requests.post(url='http://localhost:8003/cmodel', 
+	req = requests.post(url='http://localhost:8000/cmodel', 
 						files=files)
 	# print(req.text)
 	return "Model sent !"
@@ -58,7 +59,14 @@ def get_agg_model():
 
 @app.route('/modeltrain')
 def model_train():
+	print("Received request")
+
+	time.sleep(30)
 	train()
+	print("Model trained successfully!")
+	send_status()
+	send_model()
+	# get_agg_model()
 	return "Model trained successfully!"
 
 

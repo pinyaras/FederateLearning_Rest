@@ -21,7 +21,7 @@ def send_status():
 	r = requests.post(url=api_url, json=data)
 	print(r, r.status_code, r.reason, r.text)
 	if r.status_code == 200:
-		print("yeah")
+		print("Ready to dsend")
 	
 	return "Status OK sent !"
 
@@ -34,7 +34,7 @@ def send_model():
 		'model': ('model2.npy', file, 'application/octet-stream')
 	}
 
-	req = requests.post(url='http://localhost:8003/cmodel', 
+	req = requests.post(url='http://localhost:8000/cmodel', 
 						files=files)
 	# print(req.text)
 	return "Model sent !"
@@ -58,7 +58,12 @@ def get_agg_model():
 
 @app.route('/modeltrain')
 def model_train():
+	# time.sleep(30)
 	train()
+	print("Model trained successfully!")
+	send_status()
+	send_model()
+	# get_agg_model()
 	return "Model trained successfully!"
 
 

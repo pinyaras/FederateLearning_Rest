@@ -9,9 +9,9 @@ from keras.layers import Conv2D, MaxPooling2D
 import numpy as np
 import glob
 from os import path
-
-
-batch_size = 128
+import os
+import time
+batch_size = 32
 num_classes = 10
 epochs = 1
 
@@ -20,6 +20,8 @@ img_rows, img_cols = 28, 28
 input_shape = (img_rows, img_cols, 1)
 
 def process_data():
+    labels = [1,3,5,7,9]
+
     print("Processing data...")
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1)
@@ -29,6 +31,11 @@ def process_data():
     x_train /= 255
     x_test /= 255
 
+    # x_train  =  x_train[np.where(y_train > 3 and y_train < 10)]
+    # y_train =  y_train[np.where(y_train > 3 and y_train < 10)]
+    # x_test  =  x_test[np.where(y_test > 3 and y_test < 10 )] 
+    # y_test = y_train[np.where(y_test > 3 and y_test < 10)]
+
     print(x_test.shape[0], 'test samples')
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
@@ -37,6 +44,7 @@ def process_data():
     return x_train, x_test, y_train, y_test
 
 def build_model(x_train, y_train, x_test, y_test):
+    keras.backend.clear_session()
     # if there is model update set its weights as model weights
     if path.exists("model_update/agg_model.h5"):
         print("Agg model exists...\nLoading model...")
@@ -70,7 +78,6 @@ def build_model(x_train, y_train, x_test, y_test):
               epochs=epochs,
               verbose=1,
               validation_data=(x_test, y_test))
-
     return model
 
 def evaluate_model(model, x_test, y_test):
