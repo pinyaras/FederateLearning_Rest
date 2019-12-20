@@ -2,7 +2,7 @@ import concurrent.futures
 import urllib.request
 # from urllib import HTTPError
 from fl_agg import model_aggregation
-from main_server import send_agg_to_clients
+from main_server import send_agg_to_client
 import requests, json
 from datetime import datetime
 # URLS = ['http://www.foxnews.com/',

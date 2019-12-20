@@ -41,7 +41,7 @@ def process_data():
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
-    return x_train, x_test, y_train, y_test
+    return x_train[:100], x_test[:100], y_train[:100], y_test[:100]
 
 def build_model(x_train, y_train, x_test, y_test):
     keras.backend.clear_session()

@@ -7,6 +7,7 @@ import asyncio, aiohttp
 
 from fl_agg import model_aggregation
 from main_server import send_agg_to_clients
+
 from requests.exceptions import HTTPError
 from datetime import datetime 
 
@@ -44,7 +45,7 @@ async def sync():
     tasks = []
 
     async with aiohttp.ClientSession() as session:
-        for url in urls:
+        for url in URLS:
             tasks.append(fetch(session, url))
         results = await asyncio.gather(*tasks)
     model_aggregation()

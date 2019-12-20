@@ -4,6 +4,9 @@ import json
 import requests
 import ast
 from model_train import train
+import time
+import argparse
+import sys
 
 app = Flask(__name__)
 
@@ -67,8 +70,36 @@ def model_train():
 	return "Model trained successfully!"
 
 
+def define_and_get_arguments(args=sys.argv[1:]):
+    # Parse args
+    parser = argparse.ArgumentParser(description="Run websocket server worker.")
+    parser.add_argument(
+        "--port",
+        "-p",
+        type=int,
+		default=8002,
+
+        help="port number of the websocket server worker, e.g. --port 8777",
+    )
+    parser.add_argument("--host", type=str, default="localhost", help="host for the connection")
+    parser.add_argument(
+        "--id", type=str, help="name (id) of the websocket server worker, e.g. --id alice"
+    )
+
+
+    args = parser.parse_args(args=args)
+    return args
+
 if __name__ == '__main__':
-	app.run(host='localhost', port=8002, debug=False, use_reloader=True)
+	
+	args = define_and_get_arguments(sys.argv[1:])
+	id=args.id
+	host=args.host
+	port=args.port
+	print(port)
+	app.run(host=host, port=int(port), debug=False, use_reloader=True)
+
+	# app.run(host='localhost', port=8002, debug=False, use_reloader=True)
 
 
 
